@@ -2,58 +2,58 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="register-form">
+        <!--logo-->
         <div class="logo-wrapper">
           <img class="logo" src="/static/images/logo.png">
           <div class="tagline">Open source task management tool</div>
         </div>
+        <!--form -->
         <form @submit.prevent="submitForm">
           <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">이름 </label>
             <input type="text" class="form-control" id="username" v-model="form.username">
             <div class="field-error" v-if="$v.form.username.$dirty">
-              <div class="error" v-if="!$v.form.username.required">Username is required</div>
-              <div class="error" v-if="!$v.form.username.alphaNum">Username can only contain letters and numbers</div>
-              <div class="error" v-if="!$v.form.username.minLength">Username must have at least {{$v.form.username.$params.minLength.min}} letters.</div>
-              <div class="error" v-if="!$v.form.username.maxLength">Username is too long. It can contains maximium {{$v.form.username.$params.maxLength.max}} letters.</div>
+              <div class="error"  v-if="!$v.form.username.required">이름을 입력해 주세요</div>
+              <div class="error" v-if="!$v.form.username.alphaNum">이름은 문자 혹시 숫자만 가능합니다</div>
+              <div class="error" v-if="!$v.form.username.minLength">이름은 적어도 {{ $v.form.username.$params.minLength.min }} 글자 입니다.</div>
+              <div class="error" v-if="!$v.form.username.maxLength">이름은 최대 {{ $v.form.username.$params.maxLength.max }} 글자 입니다.</div>
             </div>
           </div>
           <div class="form-group">
-            <label for="emailAddress">Email address</label>
+            <label for="emailAddress">이메일주소</label>
             <input type="email" class="form-control" id="emailAddress" v-model="form.emailAddress">
             <div class="field-error" v-if="$v.form.emailAddress.$dirty">
-              <div class="error" v-if="!$v.form.emailAddress.required">Email address is required</div>
-              <div class="error" v-if="!$v.form.emailAddress.email">This is not a valid email address</div>
-              <div class="error" v-if="!$v.form.emailAddress.maxLength">Email address is too long. It can contains maximium {{$v.form.emailAddress.$params.maxLength.max}} letters.</div>
+              <div class="error" v-if="!$v.form.emailAddress.required">이메일을 입력해 주세요.</div>
+              <div class="error" v-if="!$v.form.emailAddress.email">이메일 형식이 아닙니다.</div>
+              <div class="error" v-if="!$v.form.emailAddress.maxLength">이메일 길이가 너무 깁니다. 최대 {{ $v.form.emailAddress.$params.maxLength.max }} 글자 입니다.</div>
             </div>
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" v-model="form.password">
+            <label for="password">패스워드</label>
+            <input type="password" class="form-control" id="password"  v-model="form.password">
             <div class="field-error" v-if="$v.form.password.$dirty">
-              <div class="error" v-if="!$v.form.password.required">Password is required</div>
-              <div class="error" v-if="!$v.form.password.minLength">Password is too short. It can contains at least {{$v.form.password.$params.minLength.min}} letters.</div>
-              <div class="error" v-if="!$v.form.password.maxLength">Password is too long. It can contains maximium {{$v.form.password.$params.maxLength.max}} letters.</div>
+              <div class="error" v-if="!$v.form.password.required">패스워드를  입력해 주세요.</div>
+              <div class="error" v-if="!$v.form.password.minLength">패스워드가 너무 짧습니다. {{ $v.form.password.$params.minLength.min }} </div>
+              <div class="error" v-if="!$v.form.password.maxLength">이메일 길이가 너무 깁니다. 최대 {{ $v.form.password.$params.maxLenth.max }} 글자 입니다.</div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-block">Create account</button>
-          <p class="accept-terms text-muted">By clicking “Create account”, you agree to our <a href="#">terms of service</a> and <a href="#">privacy policy</a>.</p>
-          <p class="text-center text-muted">Already have an account? <a href="/login">Sign in</a></p>
+          <button type="submit" class="btn btn-primary btn-block">회원가입</button>
+          <p class="accept-terms text-muted">By clicking "회원 가입"<a href="#">terms of service</a> and <a href="#">privacy policy</a>.</p>
         </form>
       </div>
     </div>
     <footer class="footer">
-      <span class="copyright">&copy; 2018 TaskAgile.com</span>
+      <span class="copyright">&copy; 2018 taskAgile.com</span>
       <ul class="footer-links list-inline float-right">
-        <li class="list-inline-item"><a href="#">About</a></li>
+        <li class="list-inline-item"><a href="#">about</a></li>
         <li class="list-inline-item"><a href="#">Terms of Service</a></li>
         <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-        <li class="list-inline-item"><a href="https://github.com/taskagile/vuejs.spring-boot.mysql" target="_blank">GitHub</a></li>
+        <li class="list-inline-item"><a href="#">Github</a></li>
       </ul>
     </footer>
   </div>
 </template>
-
 <script>
 import { required, email, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
 import registrationService from '@/services/registration'
@@ -81,12 +81,13 @@ export default {
       emailAddress: {
         required,
         email,
-        maxLength: maxLength(100)
+        maxLength: maxLength(30)
       },
       password: {
         required,
         minLength: minLength(6),
         maxLength: maxLength(30)
+
       }
     }
   },
@@ -96,10 +97,11 @@ export default {
       if (this.$v.$invalid) {
         return
       }
+
       registrationService.register(this.form).then(() => {
         this.$router.push({ name: 'LoginPage' })
       }).catch((error) => {
-        this.errorMessage = 'Failed to register user. ' + error.message
+        this.errorMessage = 'Failed to register user' + error.message
       })
     }
   }
