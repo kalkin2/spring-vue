@@ -3,6 +3,16 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Vuelidate from 'vuelidate'
+import axios from 'axios'
+
+axios.defaults.baseURL = '/api'
+axios.defaults.headers.common.Accept = 'application/json'
+axios.interceptors.response.use(
+  response => response,
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
 Vue.use(Vuelidate)
 
